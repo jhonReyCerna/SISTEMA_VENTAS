@@ -72,8 +72,19 @@
                     </div>
 
                     <div class="mt-3">
-                        <a href="{{ route('login') }}" class="block text-center w-full px-4 py-3 border border-white/20 rounded-full text-sm text-white/90 hover:bg-white/6 transition">Iniciar sesión</a>
+                        <a id="loginBtnReg" href="{{ route('login') }}" class="w-full rounded-full text-slate-900 font-semibold py-3 shadow-lg transition inline-block text-center" style="background-color: #d1fae5; color: #064e3b;">Iniciar sesión</a>
                     </div>
+
+                    <script>
+                        (function(){
+                            const btn = document.getElementById('loginBtnReg');
+                            if (!btn) return;
+                            const normal = '#d1fae5';
+                            const hover = '#bdebd6';
+                            btn.addEventListener('mouseenter', () => btn.style.backgroundColor = hover);
+                            btn.addEventListener('mouseleave', () => btn.style.backgroundColor = normal);
+                        })();
+                    </script>
                 </form>
             </div>
         </div>
