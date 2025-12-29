@@ -38,17 +38,8 @@
                     </defs>
                     <rect width="800" height="600" fill="url(#g1)" />
                 </svg>
-                <div class="relative z-10 max-w-lg text-white">
-                    <h1 class="text-4xl font-semibold mb-4">Sistema de Gestión de Ventas</h1>
-                    <p class="text-white/90 mb-6">Controla productos, clientes, ventas y reportes desde un solo lugar.</p>
-                    <div class="bg-white/6 p-6 rounded-xl shadow-inner border border-white/10">
-                        <svg width="100%" height="200" viewBox="0 0 600 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="8" y="24" width="120" height="120" rx="12" fill="rgba(255,255,255,0.06)" />
-                            <rect x="160" y="4" width="280" height="140" rx="14" fill="rgba(255,255,255,0.08)" />
-                            <rect x="468" y="60" width="120" height="86" rx="10" fill="rgba(255,255,255,0.06)" />
-                        </svg>
-                    </div>
-                    <p class="text-sm text-white/80 mt-6">Diseño moderno — profesional y confiable</p>
+                <div class="relative z-10 w-full flex items-center justify-center">
+                    <img src="{{ asset('storage/img/img1.png') }}" alt="Imagen" loading="eager" style="width: 950px; height: 810px;" class="rounded-md shadow-lg object-contain" />
                 </div>
             </div>
 
