@@ -27,7 +27,7 @@
     <body style="font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto;" class="antialiased text-gray-900 bg-gray-50">
         <div class="min-h-screen grid grid-cols-1 md:grid-cols-5">
             <!-- Left visual column (60%) -->
-            <div class="hidden md:flex md:col-span-3 items-center justify-center p-12 relative overflow-hidden" style="background: linear-gradient(135deg,#6b21a8 0%,#7c3aed 35%,#4f46e5 100%); color: white;">
+            <div class="hidden md:flex md:col-span-3 items-center justify-center p-12 relative overflow-hidden" style="background: #f5f5f5; color: white;">
                 <!-- decorative stars / mountains background -->
                 <svg class="absolute inset-0 w-full h-full" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="opacity:0.12">
                     <defs>
