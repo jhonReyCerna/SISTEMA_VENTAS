@@ -1,7 +1,6 @@
-<x-guest-layout>
-    @extends('layouts.auth-two-column')
+@extends('layouts.auth-two-column')
 
-    @section('content')
+@section('content')
         <div class="rounded-xl p-8 relative" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
             <div class="absolute inset-0 rounded-xl" style="background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
             <div class="relative bg-white/5 p-6 rounded-xl text-white">
