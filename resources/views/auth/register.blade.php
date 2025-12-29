@@ -1,0 +1,81 @@
+<x-guest-layout>
+    @extends('layouts.auth-two-column')
+
+    @section('content')
+        <div class="rounded-xl p-8 relative" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+            <div class="absolute inset-0 rounded-xl" style="background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
+            <div class="relative bg-white/5 p-6 rounded-xl text-white">
+                <div class="flex flex-col items-center mb-6">
+                    <x-application-logo class="w-16 h-16 text-gray-800" />
+                    <h2 class="mt-4 text-xl font-semibold text-gray-800">Crear cuenta</h2>
+                    <p class="text-sm text-gray-500 mt-1">Regístrate para comenzar a gestionar ventas y clientes</p>
+                </div>
+
+                <x-auth-session-status class="mb-4" :status="session('status')" />
+
+                <form method="POST" action="{{ route('register') }}" class="space-y-4">
+                    @csrf
+
+                    <!-- Name -->
+                    <div class="relative">
+                        <label for="name" class="block text-sm font-medium text-white/85">Nombre</label>
+                        <div class="mt-2 relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 4a3 3 0 100 6 3 3 0 000-6z" /><path fill-rule="evenodd" d="M2 14a6 6 0 1116 0H2z" clip-rule="evenodd"/></svg>
+                            </span>
+                            <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" />
+                        </div>
+                        <x-input-error :messages="$errors->get('name')" class="mt-2 text-sm text-red-300" />
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="mt-4 relative">
+                        <label for="email" class="block text-sm font-medium text-white/85">Correo electrónico</label>
+                        <div class="mt-2 relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path d="M2.94 6.94A2 2 0 014 6h12a2 2 0 011.06.94L10 11 2.94 6.94z" /><path d="M18 8.5V14a2 2 0 01-2 2H4a2 2 0 01-2-2V8.5l8 4 8-4z" /></svg>
+                            </span>
+                            <input id="email" name="email" type="email" value="{{ old('email') }}" required class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" placeholder="correo@ejemplo.com" />
+                        </div>
+                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm text-red-300" />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mt-4 relative">
+                        <label for="password" class="block text-sm font-medium text-white/85">Contraseña</label>
+                        <div class="mt-2 relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v1h1a2 2 0 012 2v5a2 2 0 01-2 2H4a2 2 0 01-2-2v-5a2 2 0 012-2h1V8zm3-2a1 1 0 00-1 1v1h2V7a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                            </span>
+                            <input id="password" name="password" type="password" required class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" placeholder="••••••••" />
+                        </div>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-sm text-red-300" />
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mt-4 relative">
+                        <label for="password_confirmation" class="block text-sm font-medium text-white/85">Confirmar contraseña</label>
+                        <div class="mt-2 relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 8a3 3 0 016 0v1h1a2 2 0 012 2v5a2 2 0 01-2 2H4a2 2 0 01-2-2v-5a2 2 0 012-2h1V8zm3-2a1 1 0 00-1 1v1h2V7a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                            </span>
+                            <input id="password_confirmation" name="password_confirmation" type="password" required class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" placeholder="••••••••" />
+                        </div>
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-sm text-red-300" />
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="w-full rounded-full bg-white text-slate-900 font-semibold py-3 shadow-lg hover:brightness-95 transition">Crear cuenta</button>
+                    </div>
+
+                    <div class="flex items-center justify-center mt-3">
+                        <div class="or-divider">— o —</div>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ route('login') }}" class="block text-center w-full px-4 py-3 border border-white/20 rounded-full text-sm text-white/90 hover:bg-white/6 transition">Iniciar sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endsection
