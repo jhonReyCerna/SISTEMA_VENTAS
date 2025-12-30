@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,9 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Roles
     Route::resource('roles', RoleController::class);
+
+    // Rutas de Usuarios
+    Route::resource('usuarios', UserController::class);
 });
 
 require __DIR__.'/auth.php';

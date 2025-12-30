@@ -17,14 +17,14 @@
 
                     <!-- Name -->
                     <div class="relative">
-                        <label for="name" class="block text-sm font-medium text-white/85">Nombre</label>
+                        <label for="nombre" class="block text-sm font-medium text-white/85">Nombre</label>
                         <div class="mt-2 relative">
                             <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 4a3 3 0 100 6 3 3 0 000-6z" /><path fill-rule="evenodd" d="M2 14a6 6 0 1116 0H2z" clip-rule="evenodd"/></svg>
                             </span>
-                            <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" />
+                            <input id="nombre" name="nombre" type="text" value="{{ old('nombre') }}" required autofocus class="glass-input block w-full pl-12 bg-white/6 text-slate-900 placeholder-white/60 border border-white/10 rounded-full py-3" />
                         </div>
-                        <x-input-error :messages="$errors->get('name')" class="mt-2 text-sm text-red-300" />
+                        <x-input-error :messages="$errors->get('nombre')" class="mt-2 text-sm text-red-300" />
                     </div>
 
                     <!-- Email Address -->

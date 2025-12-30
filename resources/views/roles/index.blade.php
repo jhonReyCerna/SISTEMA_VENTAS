@@ -26,7 +26,6 @@
                                 <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
-                                <th>Creado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -36,7 +35,6 @@
                                     <td>{{ $role->id_rol }}</td>
                                     <td><strong>{{ $role->nombre }}</strong></td>
                                     <td>{{ $role->descripcion }}</td>
-                                    <td>{{ $role->created_at->format('d/m/Y') }}</td>
                                     <td>
                                         <a href="{{ route('roles.edit', $role->id_rol) }}" class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i> Editar
