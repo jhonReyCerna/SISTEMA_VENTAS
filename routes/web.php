@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +28,12 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Usuarios
     Route::resource('usuarios', UserController::class);
+
+    // Rutas de Clientes
+    Route::resource('clientes', ClienteController::class);
+
+    // Rutas de Categorías
+    Route::resource('categorias', CategoriaController::class);
 });
 
 require __DIR__.'/auth.php';

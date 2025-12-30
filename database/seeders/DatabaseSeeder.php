@@ -26,5 +26,11 @@ class DatabaseSeeder extends Seeder
             'id_rol' => 1,
             'estado' => 'ACTIVO',
         ]);
+
+        // Ejecutar ClienteSeeder
+        $this->call(ClienteSeeder::class);
+
+        // Ejecutar CategoriaSeeder
+        $this->call(CategoriaSeeder::class);
     }
 }
