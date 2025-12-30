@@ -26,15 +26,58 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        // Manejar la subida de foto
+        if ($request->hasFile('foto')) {
+            // Eliminar foto anterior si existe
+            if ($user->foto && file_exists(public_path('storage/fotos/' . $user->foto))) {
+                unlink(public_path('storage/fotos/' . $user->foto));
+            }
+            
+            // Guardar nueva foto
+            $file = $request->file('foto');
+            $filename = time() . '_' . $user->id_usuario . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('storage/fotos'), $filename);
+            $user->foto = $filename;
+        }
+        
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update the user's profile photo.
+     */
+    public function updatePhoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'foto' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+        
+        // Eliminar foto anterior si existe
+        if ($user->foto && file_exists(public_path('storage/fotos/' . $user->foto))) {
+            unlink(public_path('storage/fotos/' . $user->foto));
+        }
+        
+        // Guardar nueva foto
+        $file = $request->file('foto');
+        $filename = time() . '_' . $user->id_usuario . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('storage/fotos'), $filename);
+        
+        $user->foto = $filename;
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'photo-updated');
     }
 
     /**
