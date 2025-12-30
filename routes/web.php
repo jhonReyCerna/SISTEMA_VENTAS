@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\MovimientoStockController;
+use App\Http\Controllers\ReporteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +47,16 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Movimientos de Stock
     Route::resource('movimientos', MovimientoStockController::class)->only(['index', 'create', 'store', 'show']);
+
+    // Rutas de Reportes
+    Route::prefix('reportes')->name('reportes.')->group(function () {
+        Route::get('/', [ReporteController::class, 'index'])->name('index');
+        Route::get('/ventas-por-fecha', [ReporteController::class, 'ventasPorFecha'])->name('ventas-por-fecha');
+        Route::get('/ventas-por-usuario', [ReporteController::class, 'ventasPorUsuario'])->name('ventas-por-usuario');
+        Route::get('/productos-mas-vendidos', [ReporteController::class, 'productosMasVendidos'])->name('productos-mas-vendidos');
+        Route::get('/stock-alertas', [ReporteController::class, 'stockYAlertas'])->name('stock-alertas');
+        Route::get('/kardex', [ReporteController::class, 'kardex'])->name('kardex');
+    });
 });
 
 require __DIR__.'/auth.php';
