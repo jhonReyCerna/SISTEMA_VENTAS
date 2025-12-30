@@ -35,5 +35,8 @@ class DatabaseSeeder extends Seeder
 
         // Ejecutar ProductoSeeder
         $this->call(ProductoSeeder::class);
+
+        // Ejecutar VentaSeeder
+        $this->call(VentaSeeder::class);
     }
 }

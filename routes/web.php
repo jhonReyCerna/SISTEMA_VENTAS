@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Productos
     Route::resource('productos', ProductoController::class);
+
+    // Rutas de Ventas
+    Route::resource('ventas', VentaController::class);
 });
 
 require __DIR__.'/auth.php';
