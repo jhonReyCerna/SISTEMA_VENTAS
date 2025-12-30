@@ -24,6 +24,29 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <script>
+        // Verificar sesión al cargar la página
+        (function() {
+            // Detectar si el navegador se cerró y abrió de nuevo
+            var wasReloaded = sessionStorage.getItem('wasReloaded');
+            
+            if (!wasReloaded) {
+                // Primera carga después de abrir el navegador
+                // Verificar autenticación con el servidor
+                fetch('{{ route("dashboard") }}', {
+                    method: 'HEAD',
+                    credentials: 'same-origin'
+                }).then(response => {
+                    if (response.redirected || response.status === 401) {
+                        window.location.replace('{{ route("login") }}');
+                    } else {
+                        sessionStorage.setItem('wasReloaded', 'true');
+                    }
+                }).catch(() => {
+                    sessionStorage.setItem('wasReloaded', 'true');
+                });
+            }
+        })();
+        
         // Prevenir navegación hacia atrás
         (function() {
             // Si venimos del login, reemplazar esa entrada del historial
