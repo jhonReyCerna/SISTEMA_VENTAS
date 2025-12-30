@@ -5,6 +5,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Categorías
     Route::resource('categorias', CategoriaController::class);
+
+    // Rutas de Productos
+    Route::resource('productos', ProductoController::class);
 });
 
 require __DIR__.'/auth.php';
