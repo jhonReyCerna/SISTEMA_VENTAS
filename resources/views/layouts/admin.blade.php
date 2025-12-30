@@ -89,7 +89,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('roles.index') }}" class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shield-alt"></i>
                                 <p>Roles</p>
                             </a>
