@@ -131,6 +131,13 @@
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ route('movimientos.index') }}" class="nav-link {{ request()->routeIs('movimientos.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p>Movimientos Stock</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Reportes</p>

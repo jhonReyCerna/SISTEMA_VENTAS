@@ -41,5 +41,8 @@ class DatabaseSeeder extends Seeder
 
         // Ejecutar DetalleVentaSeeder
         $this->call(DetalleVentaSeeder::class);
+
+        // Ejecutar MovimientoStockSeeder
+        $this->call(MovimientoStockSeeder::class);
     }
 }

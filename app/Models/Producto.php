@@ -38,4 +38,12 @@ class Producto extends Model
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
+
+    /**
+     * Get the movimientos for the product.
+     */
+    public function movimientos()
+    {
+        return $this->hasMany(MovimientoStock::class, 'id_producto', 'id_producto');
+    }
 }

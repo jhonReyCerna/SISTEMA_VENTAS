@@ -7,6 +7,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\MovimientoStockController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
 
     // Rutas de Ventas
     Route::resource('ventas', VentaController::class);
+
+    // Rutas de Movimientos de Stock
+    Route::resource('movimientos', MovimientoStockController::class)->only(['index', 'create', 'store', 'show']);
 });
 
 require __DIR__.'/auth.php';
