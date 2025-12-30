@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>@yield('title', 'Sistema de Ventas') - Admin</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -20,6 +23,23 @@
     @yield('extra_css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+    <script>
+        // Prevenir navegación hacia atrás
+        (function() {
+            // Si venimos del login, reemplazar esa entrada del historial
+            if (document.referrer && (document.referrer.includes('/login') || document.referrer.includes('/register'))) {
+                window.history.replaceState(null, null, window.location.href);
+            } else {
+                // Para otras navegaciones, agregar entrada
+                window.history.pushState(null, null, window.location.href);
+            }
+            
+            // Interceptar el botón atrás
+            window.addEventListener('popstate', function(event) {
+                window.history.pushState(null, null, window.location.href);
+            });
+        })();
+    </script>
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -231,6 +251,27 @@
                 sizeAutoCapable: true,
                 className: 'os-theme-light'
             });
+        });
+
+        // Prevenir cache del navegador
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+
+        // Deshabilitar Backspace para navegar atrás
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 8) { // Backspace
+                var element = e.target.nodeName.toLowerCase();
+                if (element !== 'input' && element !== 'textarea') {
+                    e.preventDefault();
+                }
+            }
+            // Bloquear Alt + Flecha Izquierda
+            if (e.altKey && e.keyCode === 37) {
+                e.preventDefault();
+            }
         });
     </script>
 

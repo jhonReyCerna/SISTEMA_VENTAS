@@ -265,3 +265,14 @@
 </div>
 @endsection
 
+@section('extra_js')
+<script>
+    // Si acabamos de hacer login, limpiar completamente el historial del login
+    (function() {
+        // Reemplazar la entrada actual del historial para que no guarde el login
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    })();
+</script>
+@endsection

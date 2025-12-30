@@ -14,6 +14,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Limpiar el flag de just_logged_in después de cargar el dashboard
+        if (session('just_logged_in')) {
+            session()->forget('just_logged_in');
+        }
+        
         // Estadísticas generales
         $total_ventas = Venta::count();
         $total_ingresos = Venta::sum('total');

@@ -11,7 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Registrar alias de middleware
+        $middleware->alias([
+            'prevent.back' => \App\Http\Middleware\PreventBackHistory::class,
+            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ]);
+        
+        // Configurar redirección para invitados
+        $middleware->redirectGuestsTo('/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
