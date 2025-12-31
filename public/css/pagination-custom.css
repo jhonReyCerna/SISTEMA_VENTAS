@@ -1,0 +1,97 @@
+/* Forzar tamaño de flechas de paginación */
+.pagination-arrow {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  min-width: 1.25rem !important;
+  min-height: 1.25rem !important;
+  max-width: 1.25rem !important;
+  max-height: 1.25rem !important;
+}
+
+
+/* Mejorar el diseño visual de la paginación y su separación */
+.pagination-block, .pagination-block-custom {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: #f8f9fa;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.06);
+  display: inline-block;
+  min-width: 320px;
+}
+.pagination-block-custom {
+  float: left;
+  margin-left: 0;
+}
+.pagination,
+.pagination .inline-flex,
+.pagination .shadow-sm,
+.pagination .rounded-md,
+.pagination .inline-flex.items-center {
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+}
+.pagination a,
+.pagination .inline-flex a,
+.pagination .inline-flex.items-center a {
+  border-radius: 0.375rem !important;
+  margin: 0 2px;
+  color: #1a202c;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.pagination a:hover,
+.pagination .inline-flex a:hover {
+  background: #e2e8f0;
+  color: #007bff;
+  border-color: #b6c2d2;
+}
+.pagination .inline-flex span[aria-current="page"],
+.pagination .inline-flex.items-center span[aria-current="page"] {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+  font-weight: bold;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination .inline-flex span[aria-disabled="true"],
+.pagination .inline-flex.items-center span[aria-disabled="true"] {
+  background: #f1f1f1;
+  color: #b0b0b0;
+  border-color: #e2e8f0;
+  min-width: 38px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination .inline-flex .pagination-arrow {
+  color: #1a202c;
+  transition: color 0.2s;
+}
+.pagination .inline-flex a:hover .pagination-arrow {
+  color: #007bff;
+}
+.pagination .inline-flex span[aria-disabled="true"] .pagination-arrow {
+  color: #b0b0b0;
+}
+.pagination-info {
+  font-size: 0.97rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+  margin-left: 0.2rem;
+}

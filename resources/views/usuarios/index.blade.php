@@ -79,8 +79,45 @@
                 </table>
 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $usuarios->links() }}
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="pagination-block-custom mb-0 p-0" style="background:transparent;box-shadow:none;">
+                        {{-- Links de páginas (números) --}}
+                        @php
+                            $elements = $usuarios->links()->elements[0] ?? [];
+                        @endphp
+                        @if($usuarios->lastPage() > 1)
+                            <nav class="d-inline-block">
+                                <ul class="pagination mb-0">
+                                    @foreach ($usuarios->links()->elements[0] as $page => $url)
+                                        @if ($page == $usuarios->currentPage())
+                                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </nav>
+                        @endif
+                    </div>
+                    <div class="pagination-block-custom mb-0 p-0 text-right" style="background:transparent;box-shadow:none;">
+                        {{-- Botones Anterior/Siguiente --}}
+                        <nav class="d-inline-block">
+                            <ul class="pagination mb-0">
+                                {{-- Anterior --}}
+                                @if ($usuarios->onFirstPage())
+                                    <li class="page-item disabled"><span class="page-link">&laquo; Anterior</span></li>
+                                @else
+                                    <li class="page-item"><a class="page-link" href="{{ $usuarios->previousPageUrl() }}" rel="prev">&laquo; Anterior</a></li>
+                                @endif
+                                {{-- Siguiente --}}
+                                @if ($usuarios->hasMorePages())
+                                    <li class="page-item"><a class="page-link" href="{{ $usuarios->nextPageUrl() }}" rel="next">Siguiente &raquo;</a></li>
+                                @else
+                                    <li class="page-item disabled"><span class="page-link">Siguiente &raquo;</span></li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>

@@ -225,7 +225,7 @@
             
             <!-- Paginación -->
             @if($cupones->hasPages())
-                <div class="d-flex justify-content-center">
+                <div class="pagination-block-custom mt-4">
                     {{ $cupones->withQueryString()->links() }}
                 </div>
             @endif

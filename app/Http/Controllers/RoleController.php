@@ -12,7 +12,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::paginate(10); // 10 por página, puedes ajustar el número
         return view('roles.index', compact('roles'));
     }
 

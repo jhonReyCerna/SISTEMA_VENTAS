@@ -70,9 +70,44 @@
                     </tbody>
                 </table>
 
+
+
                 <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $categorias->links() }}
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="pagination-block-custom mb-0 p-0" style="background:transparent;box-shadow:none;">
+                        @php
+                            $elements = $categorias->links()->elements[0] ?? [];
+                        @endphp
+                        @if($categorias->lastPage() > 1)
+                            <nav class="d-inline-block">
+                                <ul class="pagination mb-0">
+                                    @foreach ($categorias->links()->elements[0] as $page => $url)
+                                        @if ($page == $categorias->currentPage())
+                                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </nav>
+                        @endif
+                    </div>
+                    <div class="pagination-block-custom mb-0 p-0 text-right" style="background:transparent;box-shadow:none;">
+                        <nav class="d-inline-block">
+                            <ul class="pagination mb-0">
+                                @if ($categorias->onFirstPage())
+                                    <li class="page-item disabled"><span class="page-link">&laquo; Anterior</span></li>
+                                @else
+                                    <li class="page-item"><a class="page-link" href="{{ $categorias->previousPageUrl() }}" rel="prev">&laquo; Anterior</a></li>
+                                @endif
+                                @if ($categorias->hasMorePages())
+                                    <li class="page-item"><a class="page-link" href="{{ $categorias->nextPageUrl() }}" rel="next">Siguiente &raquo;</a></li>
+                                @else
+                                    <li class="page-item disabled"><span class="page-link">Siguiente &raquo;</span></li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
