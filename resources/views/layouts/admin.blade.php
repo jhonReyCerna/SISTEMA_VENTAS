@@ -174,6 +174,12 @@
                                 <p>Usuarios</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('logs.index') }}" class="nav-link {{ request()->routeIs('logs.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Auditoría completa del sistema">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Logs de Actividad</p>
+                            </a>
+                        </li>
                         @endif
 
                         <!-- Clientes - Admin, Supervisor, Vendedor -->
@@ -243,6 +249,43 @@
                                 <p>Notificaciones</p>
                                 <span class="badge badge-warning right" id="sidebar-notifications-count" style="display: none;">0</span>
                             </a>
+                        </li>
+
+                        <!-- Seguridad - Todos los roles -->
+                        <li class="nav-item {{ request()->routeIs('security.*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ request()->routeIs('security.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Centro de seguridad y configuración avanzada">
+                                <i class="nav-icon fas fa-shield-alt"></i>
+                                <p>
+                                    Seguridad
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('security.dashboard') }}" class="nav-link {{ request()->routeIs('security.dashboard') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Centro de Seguridad</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('security.2fa.setup') }}" class="nav-link {{ request()->routeIs('security.2fa.*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Autenticación 2FA</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('security.sessions') }}" class="nav-link {{ request()->routeIs('security.sessions') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sesiones Activas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('security.login-history') }}" class="nav-link {{ request()->routeIs('security.login-history') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Historial de Accesos</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>

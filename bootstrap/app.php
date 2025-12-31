@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.status' => \App\Http\Middleware\CheckUserStatus::class,
             'role' => \App\Http\Middleware\CheckRole::class,
             'stock.check' => \App\Http\Middleware\CheckStockBajo::class,
+            'track.session' => \App\Http\Middleware\TrackUserSession::class,
+            'log.activity' => \App\Http\Middleware\LogActivity::class,
         ]);
         
         // Configurar redirección para invitados
