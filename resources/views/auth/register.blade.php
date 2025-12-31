@@ -63,6 +63,25 @@
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-sm text-red-300" />
                     </div>
 
+                    <!-- Role Selection -->
+                    <div class="mt-4 relative">
+                        <label for="id_rol" class="block text-sm font-medium text-white/85">Tipo de perfil</label>
+                        <div class="mt-2 relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center z-10">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-svg h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
+                            </span>
+                            <select id="id_rol" name="id_rol" required class="glass-input block w-full pl-12 bg-white/6 text-slate-900 border border-white/10 rounded-full py-3 pr-10" style="appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27currentColor%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276 9 12 15 18 9%27%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em;">
+                                <option value="">Selecciona un tipo de perfil</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id_rol }}" {{ old('id_rol') == $role->id_rol ? 'selected' : '' }}>
+                                        {{ $role->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <x-input-error :messages="$errors->get('id_rol')" class="mt-2 text-sm text-red-300" />
+                    </div>
+
                     <div class="mt-4">
                         <button type="submit" class="w-full rounded-full bg-white text-slate-900 font-semibold py-3 shadow-lg hover:brightness-95 transition">Crear cuenta</button>
                     </div>

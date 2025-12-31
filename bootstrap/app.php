@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'prevent.back' => \App\Http\Middleware\PreventBackHistory::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'check.status' => \App\Http\Middleware\CheckUserStatus::class,
+            'role' => \App\Http\Middleware\CheckRole::class,
         ]);
         
         // Configurar redirección para invitados

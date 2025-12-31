@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $roles = Role::all();
+        return view('auth.register', compact('roles'));
     }
 
     /**
@@ -33,13 +35,14 @@ class RegisteredUserController extends Controller
             'nombre' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:usuarios,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'id_rol' => ['required', 'exists:roles,id_rol'],
         ]);
 
         $user = User::create([
             'nombre' => $request->nombre,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'id_rol' => 2, // Rol Vendedor por defecto
+            'id_rol' => $request->id_rol,
             'estado' => 'ACTIVO',
         ]);
 

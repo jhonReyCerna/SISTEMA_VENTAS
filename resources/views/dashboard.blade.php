@@ -7,6 +7,17 @@
 @endsection
 
 @section('content')
+<!-- Mensaje de error si no tiene permisos -->
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h5><i class="icon fas fa-ban"></i> Acceso Denegado</h5>
+        {{ session('error') }}
+    </div>
+@endif
+
 <!-- Small boxes (Stat boxes) -->
 <div class="row">
     <div class="col-lg-3 col-6">

@@ -10,6 +10,13 @@
             <p class="text-sm text-gray-500 mt-1">Acceso al panel administrativo</p>
         </div>
 
+            <!-- Mensaje de error si la cuenta está inactiva -->
+            @if(session('error'))
+                <div class="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-300">
+                    <p class="text-sm">{{ session('error') }}</p>
+                </div>
+            @endif
+
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <form method="POST" action="{{ route('login') }}" class="space-y-4" id="loginForm">

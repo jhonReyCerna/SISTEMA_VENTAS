@@ -49,6 +49,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Verificar si el usuario está activo
+        $user = Auth::user();
+        if ($user->estado !== 'ACTIVO') {
+            Auth::logout();
+            
+            throw ValidationException::withMessages([
+                'email' => 'Tu cuenta está inactiva. Por favor contacta al administrador.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
