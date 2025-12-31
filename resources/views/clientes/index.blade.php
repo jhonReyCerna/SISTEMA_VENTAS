@@ -28,6 +28,36 @@
                     </div>
                 @endif
 
+                <form method="GET" class="mb-3">
+                    <div class="form-row">
+                        <div class="col">
+                            <select name="tipo_documento" class="form-control">
+                                <option value="">Tipo Doc.</option>
+                                <option value="DNI" {{ request('tipo_documento') == 'DNI' ? 'selected' : '' }}>DNI</option>
+                                <option value="RUC" {{ request('tipo_documento') == 'RUC' ? 'selected' : '' }}>RUC</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request('nombre') }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="telefono" class="form-control" placeholder="Teléfono" value="{{ request('telefono') }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="numero_documento" class="form-control" placeholder="Nº Documento" value="{{ request('numero_documento') }}">
+                        </div>
+                        <div class="col">
+                            <select name="estado" class="form-control">
+                                <option value="">Estado</option>
+                                <option value="ACTIVO" {{ request('estado') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
+                                <option value="INACTIVO" {{ request('estado') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Filtrar</button>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>

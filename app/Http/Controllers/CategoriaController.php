@@ -12,7 +12,17 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::paginate(10);
+        $query = Categoria::query();
+        if (request()->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . request('nombre') . '%');
+        }
+        if (request()->filled('descripcion')) {
+            $query->where('descripcion', 'like', '%' . request('descripcion') . '%');
+        }
+        if (request()->filled('estado')) {
+            $query->where('estado', request('estado'));
+        }
+        $categorias = $query->paginate(10)->appends(request()->query());
         return view('categorias.index', compact('categorias'));
     }
 

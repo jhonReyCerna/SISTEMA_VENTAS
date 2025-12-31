@@ -19,7 +19,24 @@ class VentaController extends Controller
      */
     public function index()
     {
-        $ventas = Venta::with(['cliente', 'usuario'])->orderBy('fecha_venta', 'desc')->paginate(10);
+        $query = Venta::with(['cliente', 'usuario'])->orderBy('fecha_venta', 'desc');
+        if (request()->filled('fecha')) {
+            $query->whereDate('fecha_venta', request('fecha'));
+        }
+        if (request()->filled('cliente')) {
+            $query->whereHas('cliente', function($q) {
+                $q->where('nombre', 'like', '%' . request('cliente') . '%');
+            });
+        }
+        if (request()->filled('usuario')) {
+            $query->whereHas('usuario', function($q) {
+                $q->where('nombre', 'like', '%' . request('usuario') . '%');
+            });
+        }
+        if (request()->filled('comprobante')) {
+            $query->where('tipo_comprobante', request('comprobante'));
+        }
+        $ventas = $query->paginate(10)->appends(request()->query());
         return view('ventas.index', compact('ventas'));
     }
 

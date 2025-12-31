@@ -26,6 +26,29 @@
 
     <div class="card">
         <div class="card-body">
+            <form method="GET" class="mb-3">
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" name="producto" class="form-control" placeholder="Producto" value="{{ request('producto') }}">
+                    </div>
+                    <div class="col">
+                        <select name="tipo" class="form-control">
+                            <option value="">Tipo</option>
+                            <option value="ENTRADA" {{ request('tipo') == 'ENTRADA' ? 'selected' : '' }}>ENTRADA</option>
+                            <option value="SALIDA" {{ request('tipo') == 'SALIDA' ? 'selected' : '' }}>SALIDA</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="date" name="fecha" class="form-control" value="{{ request('fecha') }}">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="motivo" class="form-control" placeholder="Motivo" value="{{ request('motivo') }}">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Filtrar</button>
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>

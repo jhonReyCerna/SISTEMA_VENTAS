@@ -13,8 +13,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::with('role')->paginate(10);
-        return view('usuarios.index', compact('usuarios'));
+        $query = User::with('role');
+
+        if (request()->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . request('nombre') . '%');
+        }
+        if (request()->filled('email')) {
+            $query->where('email', 'like', '%' . request('email') . '%');
+        }
+        if (request()->filled('rol')) {
+            $query->where('id_rol', request('rol'));
+        }
+        if (request()->filled('estado')) {
+            $query->where('estado', request('estado'));
+        }
+
+        $usuarios = $query->paginate(10)->appends(request()->query());
+        $roles = \App\Models\Role::all();
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     /**
@@ -41,7 +57,11 @@ class UserController extends Controller
 
         User::create($validated);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente');
+        // Obtener roles para la vista después de crear
+        $query = User::with('role');
+        $usuarios = $query->paginate(10);
+        $roles = Role::all();
+        return view('usuarios.index', compact('usuarios', 'roles'))->with('success', 'Usuario creado exitosamente');
     }
 
     /**
@@ -75,7 +95,11 @@ class UserController extends Controller
 
         $usuario->update($validated);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente');
+        // Obtener roles para la vista después de actualizar
+        $query = User::with('role');
+        $usuarios = $query->paginate(10);
+        $roles = Role::all();
+        return view('usuarios.index', compact('usuarios', 'roles'))->with('success', 'Usuario actualizado exitosamente');
     }
 
     /**
@@ -85,6 +109,10 @@ class UserController extends Controller
     {
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente');
+        // Obtener roles para la vista después de eliminar
+        $query = User::with('role');
+        $usuarios = $query->paginate(10);
+        $roles = Role::all();
+        return view('usuarios.index', compact('usuarios', 'roles'))->with('success', 'Usuario eliminado exitosamente');
     }
 }

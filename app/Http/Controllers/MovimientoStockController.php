@@ -13,7 +13,22 @@ class MovimientoStockController extends Controller
      */
     public function index()
     {
-        $movimientos = MovimientoStock::with('producto')->orderBy('fecha_movimiento', 'desc')->paginate(10);
+        $query = MovimientoStock::with('producto')->orderBy('fecha_movimiento', 'desc');
+        if (request()->filled('producto')) {
+            $query->whereHas('producto', function($q) {
+                $q->where('nombre', 'like', '%' . request('producto') . '%');
+            });
+        }
+        if (request()->filled('tipo')) {
+            $query->where('tipo_movimiento', request('tipo'));
+        }
+        if (request()->filled('fecha')) {
+            $query->whereDate('fecha_movimiento', request('fecha'));
+        }
+        if (request()->filled('motivo')) {
+            $query->where('motivo', 'like', '%' . request('motivo') . '%');
+        }
+        $movimientos = $query->paginate(10)->appends(request()->query());
         return view('movimientos.index', compact('movimientos'));
     }
 

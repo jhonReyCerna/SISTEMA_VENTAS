@@ -12,7 +12,15 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::paginate(10); // 10 por página, puedes ajustar el número
+        $query = Role::query();
+        if (request()->filled('buscar')) {
+            $buscar = request('buscar');
+            $query->where(function($q) use ($buscar) {
+                $q->where('nombre', 'like', "%$buscar%")
+                  ->orWhere('descripcion', 'like', "%$buscar%");
+            });
+        }
+        $roles = $query->paginate(10)->appends(request()->query());
         return view('roles.index', compact('roles'));
     }
 

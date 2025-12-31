@@ -15,8 +15,25 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::with('categoria')->paginate(10);
-        return view('productos.index', compact('productos'));
+        $query = Producto::with('categoria');
+        if (request()->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . request('nombre') . '%');
+        }
+        if (request()->filled('categoria')) {
+            $query->where('id_categoria', request('categoria'));
+        }
+        if (request()->filled('precio_compra')) {
+            $query->where('precio_compra', request('precio_compra'));
+        }
+        if (request()->filled('precio_venta')) {
+            $query->where('precio_venta', request('precio_venta'));
+        }
+        if (request()->filled('estado')) {
+            $query->where('estado', request('estado'));
+        }
+        $productos = $query->paginate(10)->appends(request()->query());
+        $categorias = \App\Models\Categoria::all();
+        return view('productos.index', compact('productos', 'categorias'));
     }
 
     /**

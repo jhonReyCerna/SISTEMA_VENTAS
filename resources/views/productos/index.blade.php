@@ -31,6 +31,39 @@
                     </div>
                 @endif
 
+                <form method="GET" class="mb-3">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request('nombre') }}">
+                        </div>
+                        <div class="col">
+                            <select name="categoria" class="form-control">
+                                <option value="">Todas las categorías</option>
+                                @if(isset($categorias))
+                                    @foreach($categorias as $cat)
+                                        <option value="{{ $cat->id_categoria }}" {{ request('categoria') == $cat->id_categoria ? 'selected' : '' }}>{{ $cat->nombre }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" name="precio_compra" class="form-control" placeholder="Precio Compra" value="{{ request('precio_compra') }}">
+                        </div>
+                        <div class="col">
+                            <input type="number" step="0.01" name="precio_venta" class="form-control" placeholder="Precio Venta" value="{{ request('precio_venta') }}">
+                        </div>
+                        <div class="col">
+                            <select name="estado" class="form-control">
+                                <option value="">Estado</option>
+                                <option value="ACTIVO" {{ request('estado') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
+                                <option value="INACTIVO" {{ request('estado') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Filtrar</button>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>

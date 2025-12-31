@@ -12,7 +12,23 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::paginate(10);
+        $query = Cliente::query();
+        if (request()->filled('tipo_documento')) {
+            $query->where('tipo_documento', request('tipo_documento'));
+        }
+        if (request()->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . request('nombre') . '%');
+        }
+        if (request()->filled('telefono')) {
+            $query->where('telefono', 'like', '%' . request('telefono') . '%');
+        }
+        if (request()->filled('numero_documento')) {
+            $query->where('numero_documento', 'like', '%' . request('numero_documento') . '%');
+        }
+        if (request()->filled('estado')) {
+            $query->where('estado', request('estado'));
+        }
+        $clientes = $query->paginate(10)->appends(request()->query());
         return view('clientes.index', compact('clientes'));
     }
 

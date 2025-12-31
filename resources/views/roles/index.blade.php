@@ -19,6 +19,14 @@
                 </div>
             </div>
             <div class="card-body">
+                <form method="GET" class="mb-3" style="max-width:350px;">
+                    <div class="input-group">
+                        <input type="text" name="buscar" class="form-control" placeholder="Buscar nombre o descripción" value="{{ request('buscar') }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>

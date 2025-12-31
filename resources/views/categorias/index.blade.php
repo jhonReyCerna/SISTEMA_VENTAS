@@ -28,6 +28,26 @@
                     </div>
                 @endif
 
+                <form method="GET" class="mb-3">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request('nombre') }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="descripcion" class="form-control" placeholder="Descripción" value="{{ request('descripcion') }}">
+                        </div>
+                        <div class="col">
+                            <select name="estado" class="form-control">
+                                <option value="">Estado</option>
+                                <option value="ACTIVO" {{ request('estado') == 'ACTIVO' ? 'selected' : '' }}>Activo</option>
+                                <option value="INACTIVO" {{ request('estado') == 'INACTIVO' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Filtrar</button>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>

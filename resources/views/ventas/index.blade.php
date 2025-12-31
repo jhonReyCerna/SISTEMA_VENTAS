@@ -31,6 +31,29 @@
                     </div>
                 @endif
 
+                <form method="GET" class="mb-3">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="date" name="fecha" class="form-control" value="{{ request('fecha') }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="cliente" class="form-control" placeholder="Cliente" value="{{ request('cliente') }}">
+                        </div>
+                        <div class="col">
+                            <input type="text" name="usuario" class="form-control" placeholder="Usuario" value="{{ request('usuario') }}">
+                        </div>
+                        <div class="col">
+                            <select name="comprobante" class="form-control">
+                                <option value="">Comprobante</option>
+                                <option value="BOLETA" {{ request('comprobante') == 'BOLETA' ? 'selected' : '' }}>BOLETA</option>
+                                <option value="FACTURA" {{ request('comprobante') == 'FACTURA' ? 'selected' : '' }}>FACTURA</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Filtrar</button>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
