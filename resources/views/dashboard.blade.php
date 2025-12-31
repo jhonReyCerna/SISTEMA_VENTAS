@@ -18,61 +18,105 @@
     </div>
 @endif
 
-<!-- Small boxes (Stat boxes) -->
+<!-- Comparativa Anual -->
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h4 class="text-bold">S/ {{ number_format($ventas_anio_actual, 2) }}</h4>
+                        <p class="text-muted mb-0">Ventas {{ now()->year }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="text-bold">
+                            @if($crecimiento_anual >= 0)
+                                <i class="fas fa-arrow-up text-success"></i>
+                                <span class="text-success">{{ number_format($crecimiento_anual, 1) }}%</span>
+                            @else
+                                <i class="fas fa-arrow-down text-danger"></i>
+                                <span class="text-danger">{{ number_format($crecimiento_anual, 1) }}%</span>
+                            @endif
+                        </h4>
+                        <p class="text-muted mb-0">Crecimiento vs {{ now()->year - 1 }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="text-bold text-secondary">S/ {{ number_format($ventas_anio_anterior, 2) }}</h4>
+                        <p class="text-muted mb-0">Ventas {{ now()->year - 1 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Small boxes (Stat boxes) con animación -->
 <div class="row">
     <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-info">
+        <div class="small-box bg-info stat-card">
             <div class="inner">
-                <h3>{{ $total_ventas }}</h3>
+                <h3><span class="counter" data-target="{{ $total_ventas }}">0</span></h3>
                 <p>Ventas Totales</p>
             </div>
             <div class="icon">
                 <i class="fas fa-shopping-cart"></i>
             </div>
+            @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
             <a href="{{ route('ventas.index') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+            @else
+            <span class="small-box-footer">Ventas registradas</span>
+            @endif
         </div>
     </div>
 
     <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
+        <div class="small-box bg-success stat-card">
             <div class="inner">
-                <h3>S/ {{ number_format($total_ingresos, 2) }}</h3>
+                <h3>S/ <span class="counter" data-target="{{ $total_ingresos }}">0</span></h3>
                 <p>Ingresos Totales</p>
             </div>
             <div class="icon">
                 <i class="fas fa-dollar-sign"></i>
             </div>
+            @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
             <a href="{{ route('reportes.ventas-por-fecha') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+            @else
+            <span class="small-box-footer">Total facturado</span>
+            @endif
         </div>
     </div>
 
     <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-warning">
+        <div class="small-box bg-warning stat-card">
             <div class="inner">
-                <h3>{{ $total_clientes }}</h3>
+                <h3><span class="counter" data-target="{{ $total_clientes }}">0</span></h3>
                 <p>Clientes Activos</p>
             </div>
             <div class="icon">
                 <i class="fas fa-users"></i>
             </div>
+            @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
             <a href="{{ route('clientes.index') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+            @else
+            <span class="small-box-footer">Clientes registrados</span>
+            @endif
         </div>
     </div>
 
     <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-danger">
+        <div class="small-box bg-danger stat-card">
             <div class="inner">
-                <h3>{{ $total_productos }}</h3>
+                <h3><span class="counter" data-target="{{ $total_productos }}">0</span></h3>
                 <p>Productos Activos</p>
             </div>
             <div class="icon">
                 <i class="fas fa-cube"></i>
             </div>
+            @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
             <a href="{{ route('productos.index') }}" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+            @else
+            <span class="small-box-footer">Productos disponibles</span>
+            @endif
         </div>
     </div>
 </div>
@@ -111,6 +155,33 @@
 </div>
 
 <!-- /.row -->
+<div class="row">
+    <!-- Gráfico de Ventas por Mes -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> Ventas de los Últimos 12 Meses</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="ventasPorMesChart" style="height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Productos Más Vendidos -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-trophy"></i> Top 5 Productos</h3>
+            </div>
+            <div class="card-body">
+                <canvas id="topProductosChart" style="height: 300px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tablas -->
 <div class="row">
     <!-- Ventas Recientes -->
     <div class="col-md-6">
@@ -276,11 +347,140 @@
 </div>
 @endsection
 
+@section('extra_css')
+<style>
+    .stat-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .counter {
+        display: inline-block;
+    }
+</style>
+@endsection
+
 @section('extra_js')
 <script>
+    // Animación de contadores
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.counter');
+        
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target'));
+            const duration = 2000; // 2 segundos
+            const step = target / (duration / 16); // 60fps
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                    counter.textContent = Math.floor(current).toLocaleString('es-PE');
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target.toLocaleString('es-PE', {minimumFractionDigits: 0, maximumFractionDigits: 2});
+                }
+            };
+            
+            updateCounter();
+        });
+    });
+
+    // Gráfico de Ventas por Mes
+    const ventasCtx = document.getElementById('ventasPorMesChart').getContext('2d');
+    const ventasChart = new Chart(ventasCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($meses_labels) !!},
+            datasets: [{
+                label: 'Ventas (S/)',
+                data: {!! json_encode($ventas_por_mes) !!},
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'S/ ' + context.parsed.y.toLocaleString('es-PE', {minimumFractionDigits: 2});
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'S/ ' + value.toLocaleString('es-PE');
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Top Productos (Donut)
+    const productosCtx = document.getElementById('topProductosChart').getContext('2d');
+    const productosChart = new Chart(productosCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {!! json_encode($productos_chart_labels) !!},
+            datasets: [{
+                label: 'Unidades Vendidas',
+                data: {!! json_encode($productos_chart_data) !!},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.parsed + ' unidades';
+                        }
+                    }
+                }
+            }
+        }
+    });
+
     // Si acabamos de hacer login, limpiar completamente el historial del login
     (function() {
-        // Reemplazar la entrada actual del historial para que no guarde el login
         if (window.history && window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }

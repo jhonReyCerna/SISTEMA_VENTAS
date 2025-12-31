@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\DetalleVenta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -77,6 +78,35 @@ class DashboardController extends Controller
                                  ->limit(5)
                                  ->get();
 
+        // Datos para gráficos
+        // Ventas por mes (últimos 12 meses)
+        $ventas_por_mes = [];
+        $meses_labels = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $mes = now()->subMonths($i);
+            $meses_labels[] = $mes->locale('es')->isoFormat('MMM YYYY');
+            $ventas_por_mes[] = Venta::whereYear('fecha_venta', $mes->year)
+                                     ->whereMonth('fecha_venta', $mes->month)
+                                     ->sum('total');
+        }
+
+        // Ventas del año anterior (para comparativa)
+        $ventas_anio_anterior = Venta::whereYear('fecha_venta', now()->subYear()->year)->sum('total');
+        $ventas_anio_actual = Venta::whereYear('fecha_venta', now()->year)->sum('total');
+        
+        // Calcular porcentaje de crecimiento
+        $crecimiento_anual = $ventas_anio_anterior > 0 
+            ? (($ventas_anio_actual - $ventas_anio_anterior) / $ventas_anio_anterior) * 100 
+            : 100;
+
+        // Top 5 productos vendidos (para gráfico)
+        $productos_chart_labels = [];
+        $productos_chart_data = [];
+        foreach ($productos_mas_vendidos as $producto) {
+            $productos_chart_labels[] = $producto->producto;
+            $productos_chart_data[] = $producto->cantidad_vendida;
+        }
+
         return view('dashboard', compact(
             'total_ventas',
             'total_ingresos',
@@ -88,7 +118,14 @@ class DashboardController extends Controller
             'ventas_recientes',
             'productos_mas_vendidos',
             'mejores_clientes',
-            'alertas_stock'
+            'alertas_stock',
+            'ventas_por_mes',
+            'meses_labels',
+            'ventas_anio_actual',
+            'ventas_anio_anterior',
+            'crecimiento_anual',
+            'productos_chart_labels',
+            'productos_chart_data'
         ));
     }
 }
