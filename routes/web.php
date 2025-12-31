@@ -10,6 +10,7 @@ use App\Http\Controllers\VentaController;
 use App\Http\Controllers\MovimientoStockController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificacionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'prevent.back', 'check.status'])->name('dashboard');
 
-Route::middleware(['auth', 'prevent.back', 'check.status'])->group(function () {
+Route::middleware(['auth', 'prevent.back', 'check.status', 'stock.check'])->group(function () {
     // Perfil - Todos los usuarios
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -78,6 +79,16 @@ Route::middleware(['auth', 'prevent.back', 'check.status'])->group(function () {
             Route::get('/kardex', [ReporteController::class, 'kardex'])->name('kardex');
             Route::get('/ventas-pdf', [ReporteController::class, 'ventasPDF'])->name('ventas-pdf');
         });
+    });
+
+    // Rutas de Notificaciones - Todos los usuarios
+    Route::middleware(['role:Admin,Supervisor,Vendedor'])->group(function () {
+        Route::get('/notificaciones', [NotificacionController::class, 'index'])->name('notificaciones.index');
+        Route::get('/notificaciones/api', [NotificacionController::class, 'obtenerNotificaciones'])->name('notificaciones.api');
+        Route::post('/notificaciones/{id}/leida', [NotificacionController::class, 'marcarLeida'])->name('notificaciones.marcar-leida');
+        Route::post('/notificaciones/marcar-todas-leidas', [NotificacionController::class, 'marcarTodasLeidas'])->name('notificaciones.marcar-todas-leidas');
+        Route::delete('/notificaciones/{id}', [NotificacionController::class, 'eliminar'])->name('notificaciones.eliminar');
+        Route::get('/notificaciones/contador', [NotificacionController::class, 'contadorNoLeidas'])->name('notificaciones.contador');
     });
 });
 

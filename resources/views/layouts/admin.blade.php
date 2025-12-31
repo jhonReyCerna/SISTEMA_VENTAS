@@ -82,6 +82,23 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" id="notifications-link">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge badge-warning navbar-badge" id="notifications-count" style="display: none;">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" id="notifications-dropdown">
+                        <span class="dropdown-item-text">Notificaciones</span>
+                        <div class="dropdown-divider"></div>
+                        <div id="notifications-list">
+                            <a href="#" class="dropdown-item text-center">Cargando...</a>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('notificaciones.index') }}" class="dropdown-item dropdown-footer">Ver todas las notificaciones</a>
+                    </div>
+                </li>
+                
                 <!-- User Account Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -218,6 +235,15 @@
                             </a>
                         </li>
                         @endif
+
+                        <!-- Notificaciones - Todos los roles -->
+                        <li class="nav-item">
+                            <a href="{{ route('notificaciones.index') }}" class="nav-link {{ request()->routeIs('notificaciones.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Centro de notificaciones y alertas">
+                                <i class="nav-icon fas fa-bell"></i>
+                                <p>Notificaciones</p>
+                                <span class="badge badge-warning right" id="sidebar-notifications-count" style="display: none;">0</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -336,7 +362,75 @@
 
             // Inicializar tooltips de Bootstrap
             $('[data-toggle="tooltip"]').tooltip();
+
+            // Cargar notificaciones al iniciar
+            cargarNotificaciones();
+
+            // Actualizar notificaciones cada 30 segundos
+            setInterval(cargarNotificaciones, 30000);
         });
+
+        // Función para cargar notificaciones
+        function cargarNotificaciones() {
+            fetch('/notificaciones/api')
+                .then(response => response.json())
+                .then(data => {
+                    const count = data.no_leidas || 0;
+                    const badge = document.getElementById('notifications-count');
+                    const sidebarBadge = document.getElementById('sidebar-notifications-count');
+                    
+                    if (count > 0) {
+                        badge.textContent = count > 9 ? '9+' : count;
+                        badge.style.display = 'inline-block';
+                        sidebarBadge.textContent = count > 9 ? '9+' : count;
+                        sidebarBadge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                        sidebarBadge.style.display = 'none';
+                    }
+
+                    // Actualizar dropdown de notificaciones
+                    const notificationsList = document.getElementById('notifications-list');
+                    if (data.notificaciones && data.notificaciones.length > 0) {
+                        notificationsList.innerHTML = data.notificaciones.slice(0, 5).map(n => `
+                            <a href="${n.url || '#'}" class="dropdown-item ${!n.leida ? 'bg-light' : ''}" 
+                               onclick="marcarComoLeida(${n.id_notificacion})">
+                                <i class="${n.icono} text-${n.color}"></i> ${n.titulo}
+                                <span class="float-right text-muted text-sm">${formatearFecha(n.fecha_creacion)}</span>
+                            </a>
+                        `).join('');
+                    } else {
+                        notificationsList.innerHTML = '<a href="#" class="dropdown-item text-center">No hay notificaciones</a>';
+                    }
+                })
+                .catch(error => console.error('Error cargando notificaciones:', error));
+        }
+
+        // Marcar notificación como leída
+        function marcarComoLeida(id) {
+            fetch(`/notificaciones/${id}/leida`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => cargarNotificaciones())
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Formatear fecha para mostrar
+        function formatearFecha(fecha) {
+            const date = new Date(fecha);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            
+            if (minutes < 1) return 'Ahora';
+            if (minutes < 60) return `${minutes}m`;
+            if (minutes < 1440) return `${Math.floor(minutes / 60)}h`;
+            return `${Math.floor(minutes / 1440)}d`;
+        }
 
         // Sistema de confirmación para eliminar
         let deleteForm = null;

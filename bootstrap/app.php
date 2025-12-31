@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'check.status' => \App\Http\Middleware\CheckUserStatus::class,
             'role' => \App\Http\Middleware\CheckRole::class,
+            'stock.check' => \App\Http\Middleware\CheckStockBajo::class,
         ]);
         
         // Configurar redirección para invitados

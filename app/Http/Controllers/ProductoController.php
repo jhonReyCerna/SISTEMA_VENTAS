@@ -54,6 +54,7 @@ class ProductoController extends Controller
      */
     public function show(Producto $producto)
     {
+        $producto->load('categoria');
         return view('productos.show', compact('producto'));
     }
 
