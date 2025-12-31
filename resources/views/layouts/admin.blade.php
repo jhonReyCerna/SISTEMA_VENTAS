@@ -130,7 +130,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Dashboard - Todos los roles -->
                         <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Panel principal con estadísticas">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -139,7 +139,7 @@
                         <!-- Roles - Solo Admin -->
                         @if(Auth::user()->role->nombre === 'Admin')
                         <li class="nav-item">
-                            <a href="{{ route('roles.index') }}" class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
+                            <a href="{{ route('roles.index') }}" class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Gestionar roles del sistema">
                                 <i class="nav-icon fas fa-shield-alt"></i>
                                 <p>Roles</p>
                             </a>
@@ -149,7 +149,7 @@
                         <!-- Usuarios - Solo Admin -->
                         @if(Auth::user()->role->nombre === 'Admin')
                         <li class="nav-item">
-                            <a href="{{ route('usuarios.index') }}" class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+                            <a href="{{ route('usuarios.index') }}" class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Administrar usuarios del sistema">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>Usuarios</p>
                             </a>
@@ -159,7 +159,7 @@
                         <!-- Clientes - Admin, Supervisor, Vendedor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
                         <li class="nav-item">
-                            <a href="{{ route('clientes.index') }}" class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}">
+                            <a href="{{ route('clientes.index') }}" class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Gestionar información de clientes">
                                 <i class="nav-icon fas fa-user-tie"></i>
                                 <p>Clientes</p>
                             </a>
@@ -169,7 +169,7 @@
                         <!-- Categorías - Admin, Supervisor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
-                            <a href="{{ route('categorias.index') }}" class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}">
+                            <a href="{{ route('categorias.index') }}" class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Organizar productos por categorías">
                                 <i class="nav-icon fas fa-th-list"></i>
                                 <p>Categorías</p>
                             </a>
@@ -179,7 +179,7 @@
                         <!-- Productos - Admin, Supervisor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
-                            <a href="{{ route('productos.index') }}" class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}">
+                            <a href="{{ route('productos.index') }}" class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Administrar catálogo de productos">
                                 <i class="nav-icon fas fa-cube"></i>
                                 <p>Productos</p>
                             </a>
@@ -189,7 +189,7 @@
                         <!-- Ventas - Admin, Supervisor, Vendedor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
                         <li class="nav-item">
-                            <a href="{{ route('ventas.index') }}" class="nav-link {{ request()->routeIs('ventas.*') ? 'active' : '' }}">
+                            <a href="{{ route('ventas.index') }}" class="nav-link {{ request()->routeIs('ventas.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Registrar y consultar ventas">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>Ventas</p>
                             </a>
@@ -199,7 +199,7 @@
                         <!-- Movimientos Stock - Admin, Supervisor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
-                            <a href="{{ route('movimientos.index') }}" class="nav-link {{ request()->routeIs('movimientos.*') ? 'active' : '' }}">
+                            <a href="{{ route('movimientos.index') }}" class="nav-link {{ request()->routeIs('movimientos.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Control de entradas y salidas de inventario">
                                 <i class="nav-icon fas fa-exchange-alt"></i>
                                 <p>Movimientos Stock</p>
                             </a>
@@ -209,7 +209,7 @@
                         <!-- Reportes - Admin, Supervisor -->
                         @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
-                            <a href="{{ route('reportes.index') }}" class="nav-link {{ request()->routeIs('reportes.*') ? 'active' : '' }}">
+                            <a href="{{ route('reportes.index') }}" class="nav-link {{ request()->routeIs('reportes.*') ? 'active' : '' }}" data-toggle="tooltip" data-placement="right" title="Analizar datos y generar reportes">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Reportes</p>
                             </a>
@@ -284,6 +284,33 @@
         </footer>
     </div>
 
+    <!-- Modal de Confirmación para Eliminar -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0" id="confirmDeleteMessage">¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times mr-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash mr-1"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -303,6 +330,25 @@
                 sizeAutoCapable: true,
                 className: 'os-theme-light'
             });
+
+            // Inicializar tooltips de Bootstrap
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        // Sistema de confirmación para eliminar
+        let deleteForm = null;
+
+        function confirmDelete(element, message = null) {
+            deleteForm = $(element).closest('form');
+            const customMessage = message || '¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.';
+            $('#confirmDeleteMessage').text(customMessage);
+            $('#confirmDeleteModal').modal('show');
+        }
+
+        $('#confirmDeleteBtn').on('click', function() {
+            if (deleteForm) {
+                deleteForm.submit();
+            }
         });
 
         // Prevenir cache del navegador
