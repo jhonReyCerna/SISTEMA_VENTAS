@@ -22,6 +22,28 @@
             .glass-input::placeholder { color: rgba(0,0,0,0.65) !important; opacity: 1 !important; }
             .glass-input:-ms-input-placeholder { color: rgba(0,0,0,0.65) !important; }
             .glass-input::-ms-input-placeholder { color: rgba(0,0,0,0.65) !important; }
+            
+            /* Evitar que el navegador cambie estilos en autocomplete */
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            input:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px white inset !important;
+                -webkit-text-fill-color: #1f2937 !important;
+                background-color: white !important;
+                color: #1f2937 !important;
+            }
+            
+            /* Asegurar que los inputs mantengan el color */
+            input.glass-input {
+                color: #1f2937 !important;
+            }
+            
+            input.glass-input:disabled,
+            input.glass-input[readonly] {
+                background-color: rgba(255,255,255,0.05) !important;
+                opacity: 0.6 !important;
+            }
         </style>
     </head>
     <body style="font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto;" class="antialiased text-gray-900 bg-gray-50">

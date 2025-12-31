@@ -114,10 +114,14 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        @if(Auth::user()->foto)
+                            <img src="{{ asset('storage/fotos/' . Auth::user()->foto) }}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->nombre) }}&background=667eea&color=fff&size=160" class="img-circle elevation-2" alt="User Image">
+                        @endif
                     </div>
                     <div class="info">
-                        <a href="{{ route('profile.edit') }}" class="d-block">{{ Auth::user()->name ?? 'Usuario' }}</a>
+                        <a href="{{ route('profile.edit') }}" class="d-block">{{ Auth::user()->nombre ?? 'Usuario' }}</a>
                     </div>
                 </div>
 

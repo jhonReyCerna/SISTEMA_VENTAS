@@ -19,7 +19,7 @@ Route::get('/', function () {
         : redirect()->route('login');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified', 'prevent.back'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'prevent.back'])->name('dashboard');
 
 Route::middleware(['auth', 'prevent.back'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

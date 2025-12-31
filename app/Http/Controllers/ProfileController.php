@@ -16,8 +16,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        // Recargar el usuario desde la base de datos con la relación role
+        $user = $request->user()->fresh(['role']);
+        
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
         ]);
     }
 
@@ -28,24 +31,18 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         
-        // Manejar la subida de foto
-        if ($request->hasFile('foto')) {
-            // Eliminar foto anterior si existe
-            if ($user->foto && file_exists(public_path('storage/fotos/' . $user->foto))) {
-                unlink(public_path('storage/fotos/' . $user->foto));
-            }
-            
-            // Guardar nueva foto
-            $file = $request->file('foto');
-            $filename = time() . '_' . $user->id_usuario . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('storage/fotos'), $filename);
-            $user->foto = $filename;
+        // Actualizar nombre
+        if ($request->has('name')) {
+            $user->nombre = $request->name;
         }
         
-        $user->fill($request->validated());
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+        // Actualizar email
+        if ($request->has('email')) {
+            $user->email = $request->email;
+            
+            if ($user->isDirty('email')) {
+                $user->email_verified_at = null;
+            }
         }
 
         $user->save();

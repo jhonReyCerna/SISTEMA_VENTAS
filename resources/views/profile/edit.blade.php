@@ -27,7 +27,7 @@
                     </button>
                 </div>
 
-                <h3 class="profile-username text-center">{{ $user->name }}</h3>
+                <h3 class="profile-username text-center">{{ $user->nombre }}</h3>
 
                 <p class="text-muted text-center">{{ $user->role->nombre ?? 'Usuario' }}</p>
 
@@ -55,16 +55,16 @@
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span>Estado de verificación:</span>
-                    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && $user->hasVerifiedEmail())
-                        <span class="badge badge-success"><i class="fas fa-check-circle"></i> Verificado</span>
+                    <span><i class="fas fa-user-check mr-2"></i>Estado de la cuenta:</span>
+                    @if($user->estado == 'ACTIVO')
+                        <span class="badge badge-success"><i class="fas fa-check-circle"></i> Activa</span>
                     @else
-                        <span class="badge badge-warning"><i class="fas fa-exclamation-circle"></i> Sin verificar</span>
+                        <span class="badge badge-danger"><i class="fas fa-times-circle"></i> Inactiva</span>
                     @endif
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <span>Estado de la cuenta:</span>
-                    <span class="badge badge-success"><i class="fas fa-check-circle"></i> Activa</span>
+                    <span><i class="fas fa-user-shield mr-2"></i>Rol:</span>
+                    <span class="badge badge-primary">{{ $user->role->nombre ?? 'Usuario' }}</span>
                 </div>
             </div>
         </div>
@@ -94,7 +94,7 @@
                     
                     <div class="form-group">
                         <label for="name"><i class="fas fa-user mr-2"></i>Nombre</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->name) }}" required autofocus>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->nombre) }}" required autofocus>
                         @error('name')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -102,7 +102,7 @@
 
                     <div class="form-group">
                         <label for="email"><i class="fas fa-envelope mr-2"></i>Correo electrónico</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}" required autocomplete="off">
                         @error('email')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -195,7 +195,10 @@
 
                     @if (session('status') === 'password-updated')
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fas fa-check-circle mr-2"></i>Contraseña actualizada correctamente.
+                            <h5><i class="fas fa-check-circle mr-2"></i>¡Contraseña actualizada correctamente!</h5>
+                            <p class="mb-0">
+                                <small><i class="fas fa-clock mr-1"></i>Última actualización: {{ session('password_updated_at') ?? now()->locale('es')->isoFormat('D [de] MMMM [de] YYYY [a las] h:mm A') }}</small>
+                            </p>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -284,6 +287,29 @@
     
     .profile-user-img-circle i {
         color: white;
+    }
+    
+    /* Evitar que el navegador cambie estilos en autocomplete */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+        -webkit-text-fill-color: #495057 !important;
+        background-color: white !important;
+        color: #495057 !important;
+    }
+    
+    /* Asegurar que los inputs mantengan el color negro */
+    input.form-control {
+        color: #495057 !important;
+        background-color: white !important;
+    }
+    
+    input.form-control:disabled,
+    input.form-control[readonly] {
+        background-color: #e9ecef !important;
+        opacity: 1 !important;
     }
     
     .profile-img {
