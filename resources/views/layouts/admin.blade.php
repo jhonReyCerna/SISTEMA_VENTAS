@@ -128,6 +128,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Dashboard - Todos los roles -->
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -135,61 +136,85 @@
                             </a>
                         </li>
 
+                        <!-- Roles - Solo Admin -->
+                        @if(Auth::user()->role->nombre === 'Admin')
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link {{ request()->routeIs('roles.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shield-alt"></i>
                                 <p>Roles</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Usuarios - Solo Admin -->
+                        @if(Auth::user()->role->nombre === 'Admin')
                         <li class="nav-item">
                             <a href="{{ route('usuarios.index') }}" class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>Usuarios</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Clientes - Admin, Supervisor, Vendedor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
                         <li class="nav-item">
                             <a href="{{ route('clientes.index') }}" class="nav-link {{ request()->routeIs('clientes.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-user-tie"></i>
                                 <p>Clientes</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Categorías - Admin, Supervisor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
                             <a href="{{ route('categorias.index') }}" class="nav-link {{ request()->routeIs('categorias.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-th-list"></i>
                                 <p>Categorías</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Productos - Admin, Supervisor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
                             <a href="{{ route('productos.index') }}" class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-cube"></i>
                                 <p>Productos</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Ventas - Admin, Supervisor, Vendedor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor', 'Vendedor']))
                         <li class="nav-item">
                             <a href="{{ route('ventas.index') }}" class="nav-link {{ request()->routeIs('ventas.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>Ventas</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Movimientos Stock - Admin, Supervisor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
                             <a href="{{ route('movimientos.index') }}" class="nav-link {{ request()->routeIs('movimientos.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-exchange-alt"></i>
                                 <p>Movimientos Stock</p>
                             </a>
                         </li>
+                        @endif
 
+                        <!-- Reportes - Admin, Supervisor -->
+                        @if(in_array(Auth::user()->role->nombre, ['Admin', 'Supervisor']))
                         <li class="nav-item">
                             <a href="{{ route('reportes.index') }}" class="nav-link {{ request()->routeIs('reportes.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Reportes</p>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -208,7 +233,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                @yield('breadcrumb')
+                                {!! App\Helpers\BreadcrumbHelper::render() !!}
                             </ol>
                         </div>
                     </div>
