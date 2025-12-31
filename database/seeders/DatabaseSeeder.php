@@ -18,14 +18,7 @@ class DatabaseSeeder extends Seeder
         // Ejecutar RoleSeeder primero
         $this->call(RoleSeeder::class);
 
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'nombre' => 'Test User',
-            'email' => 'test@example.com',
-            'id_rol' => 1,
-            'estado' => 'ACTIVO',
-        ]);
+        User::factory(15)->create();
 
         // Ejecutar ClienteSeeder
         $this->call(ClienteSeeder::class);

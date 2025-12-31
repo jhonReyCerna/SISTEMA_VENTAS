@@ -12,31 +12,15 @@ class DetalleVentaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Detalles para Venta 1 (Total: 1644.00)
-        DetalleVenta::create([
-            'id_venta' => 1,
-            'id_producto' => 1, // Laptop HP
-            'cantidad' => 1,
-            'precio_unitario' => 1599.00,
-            'subtotal' => 1599.00,
-        ]);
-
-        DetalleVenta::create([
-            'id_venta' => 1,
-            'id_producto' => 2, // Mouse
-            'cantidad' => 1,
-            'precio_unitario' => 45.00,
-            'subtotal' => 45.00,
-        ]);
-
-        // Detalles para Venta 2 (Total: 70.00)
-        DetalleVenta::create([
-            'id_venta' => 2,
-            'id_producto' => 3, // Polo
-            'cantidad' => 2,
-            'precio_unitario' => 35.00,
-            'subtotal' => 70.00,
-        ]);
+        for ($i = 1; $i <= 15; $i++) {
+            DetalleVenta::create([
+                'id_venta' => $i,
+                'id_producto' => $i,
+                'cantidad' => rand(1, 5),
+                'precio_unitario' => rand(20, 1500),
+                'subtotal' => rand(20, 1500),
+            ]);
+        }
 
         // Detalles para Venta 3 (Total: 560.00)
         DetalleVenta::create([

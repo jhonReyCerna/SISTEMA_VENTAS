@@ -12,40 +12,34 @@ class CategoriaSeeder extends Seeder
      */
     public function run(): void
     {
-        Categoria::create([
-            'nombre' => 'Electrónica',
-            'descripcion' => 'Productos electrónicos y dispositivos',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Categoria::create([
-            'nombre' => 'Ropa y Accesorios',
-            'descripcion' => 'Prendas de vestir y accesorios varios',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Categoria::create([
-            'nombre' => 'Alimentos',
-            'descripcion' => 'Productos alimenticios y bebidas',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Categoria::create([
-            'nombre' => 'Libros',
-            'descripcion' => 'Libros y material de lectura',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Categoria::create([
-            'nombre' => 'Hogar',
-            'descripcion' => 'Artículos para el hogar y decoración',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Categoria::create([
-            'nombre' => 'Deportes',
-            'descripcion' => 'Equipos y accesorios deportivos',
-            'estado' => 'ACTIVO',
-        ]);
+        $nombres = [
+            'Electrónica', 'Ropa y Accesorios', 'Alimentos', 'Libros', 'Hogar',
+            'Deportes', 'Juguetes', 'Belleza', 'Salud', 'Automotriz',
+            'Mascotas', 'Jardinería', 'Ferretería', 'Oficina', 'Viajes'
+        ];
+        $descripciones = [
+            'Productos electrónicos y dispositivos',
+            'Prendas de vestir y accesorios varios',
+            'Productos alimenticios y bebidas',
+            'Libros y material de lectura',
+            'Artículos para el hogar',
+            'Equipos y accesorios deportivos',
+            'Juguetes y juegos para niños',
+            'Productos de belleza y cuidado personal',
+            'Productos de salud y bienestar',
+            'Accesorios y repuestos automotrices',
+            'Productos para mascotas',
+            'Herramientas y productos de jardinería',
+            'Herramientas y materiales de ferretería',
+            'Suministros de oficina',
+            'Artículos y servicios de viaje',
+        ];
+        for ($i = 0; $i < 15; $i++) {
+            Categoria::create([
+                'nombre' => $nombres[$i],
+                'descripcion' => $descripciones[$i],
+                'estado' => 'ACTIVO',
+            ]);
+        }
     }
 }

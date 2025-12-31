@@ -12,64 +12,31 @@ class ClienteSeeder extends Seeder
      */
     public function run(): void
     {
-        Cliente::create([
-            'tipo_documento' => 'DNI',
-            'numero_documento' => '12345678',
-            'nombre' => 'Juan Pérez García',
-            'direccion' => 'Calle Principal 123, Apt 4',
-            'telefono' => '987654321',
-            'email' => 'juan.perez@email.com',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Cliente::create([
-            'tipo_documento' => 'DNI',
-            'numero_documento' => '87654321',
-            'nombre' => 'María López Martínez',
-            'direccion' => 'Avenida Central 456',
-            'telefono' => '987123456',
-            'email' => 'maria.lopez@email.com',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Cliente::create([
-            'tipo_documento' => 'RUC',
-            'numero_documento' => '20123456789',
-            'nombre' => 'Distribuidora Silva S.A.C.',
-            'direccion' => 'Carrera 789, Local 10',
-            'telefono' => '965432100',
-            'email' => 'contacto@silva.com',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Cliente::create([
-            'tipo_documento' => 'DNI',
-            'numero_documento' => '45678901',
-            'nombre' => 'Carlos Rodríguez Sánchez',
-            'direccion' => 'Pasaje Norte 234',
-            'telefono' => '956789012',
-            'email' => 'carlos.rodriguez@email.com',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Cliente::create([
-            'tipo_documento' => 'RUC',
-            'numero_documento' => '20987654321',
-            'nombre' => 'Empresa Comercial Andina',
-            'direccion' => 'Jr. Comercio 567',
-            'telefono' => '942345678',
-            'email' => 'ventas@andina.com',
-            'estado' => 'ACTIVO',
-        ]);
-
-        Cliente::create([
-            'tipo_documento' => 'DNI',
-            'numero_documento' => '23456789',
-            'nombre' => 'Ana Fernández Ruiz',
-            'direccion' => 'Urb. San Felipe 890',
-            'telefono' => '923456789',
-            'email' => 'ana.fernandez@email.com',
-            'estado' => 'INACTIVO',
-        ]);
+        $nombres = [
+            'Juan Pérez García', 'María López Martínez', 'Carlos Ramírez', 'Ana Torres', 'Pedro Castillo',
+            'Lucía Fernández', 'Miguel Rojas', 'Sofía Herrera', 'Luis Mendoza', 'Elena Vargas',
+            'Jorge Salinas', 'Patricia Guzmán', 'Ricardo Díaz', 'Gabriela Soto', 'Fernando Paredes'
+        ];
+        $documentos = [
+            '12345678', '87654321', '11223344', '22334455', '33445566',
+            '44556677', '55667788', '66778899', '77889900', '88990011',
+            '99001122', '10111213', '12131415', '13141516', '14151617'
+        ];
+        $emails = [
+            'juan.perez@email.com', 'maria.lopez@email.com', 'carlos.ramirez@email.com', 'ana.torres@email.com', 'pedro.castillo@email.com',
+            'lucia.fernandez@email.com', 'miguel.rojas@email.com', 'sofia.herrera@email.com', 'luis.mendoza@email.com', 'elena.vargas@email.com',
+            'jorge.salinas@email.com', 'patricia.guzman@email.com', 'ricardo.diaz@email.com', 'gabriela.soto@email.com', 'fernando.paredes@email.com'
+        ];
+        for ($i = 0; $i < 15; $i++) {
+            Cliente::create([
+                'tipo_documento' => $i < 10 ? 'DNI' : 'RUC',
+                'numero_documento' => $documentos[$i],
+                'nombre' => $nombres[$i],
+                'direccion' => 'Calle ' . chr(65 + $i) . ' #'.($i+10),
+                'telefono' => '9' . str_pad((string)($i+10000000), 8, '0', STR_PAD_LEFT),
+                'email' => $emails[$i],
+                'estado' => 'ACTIVO',
+            ]);
+        }
     }
 }
