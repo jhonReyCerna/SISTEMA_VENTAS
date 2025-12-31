@@ -8,6 +8,9 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\VentasExport;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VentaController extends Controller
 {
@@ -90,5 +93,59 @@ class VentaController extends Controller
         $venta->delete();
 
         return redirect()->route('ventas.index')->with('success', 'Venta eliminada exitosamente');
+    }
+
+    /**
+     * Generar PDF de la factura
+     */
+    public function generarPDF(Venta $venta)
+    {
+        $venta->load(['cliente', 'usuario', 'detalles.producto']);
+        
+        $pdf = Pdf::loadView('ventas.factura_pdf', compact('venta'));
+        
+        return $pdf->download('factura_' . str_pad($venta->id_venta, 8, '0', STR_PAD_LEFT) . '.pdf');
+    }
+
+    /**
+     * Mostrar ticket de venta para imprimir
+     */
+    public function ticket(Venta $venta)
+    {
+        $venta->load(['cliente', 'usuario', 'detalles.producto']);
+        
+        return view('ventas.ticket', compact('venta'));
+    }
+
+    /**
+     * Exportar ventas a Excel
+     */
+    public function exportarExcel(Request $request)
+    {
+        $fecha_inicio = $request->input('fecha_inicio');
+        $fecha_fin = $request->input('fecha_fin');
+        
+        $export = new VentasExport($fecha_inicio, $fecha_fin);
+        $data = $export->toArray();
+        
+        $nombreArchivo = 'ventas_' . date('Y-m-d_H-i-s') . '.csv';
+        
+        $response = new StreamedResponse(function() use ($data) {
+            $handle = fopen('php://output', 'w');
+            
+            // BOM para UTF-8
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            foreach ($data as $row) {
+                fputcsv($handle, $row, ';');
+            }
+            
+            fclose($handle);
+        });
+        
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $nombreArchivo . '"');
+        
+        return $response;
     }
 }

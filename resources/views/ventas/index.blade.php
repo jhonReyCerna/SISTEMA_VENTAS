@@ -13,6 +13,9 @@
             <div class="card-header">
                 <h3 class="card-title">Gestión de Ventas</h3>
                 <div class="card-tools">
+                    <a href="{{ route('ventas.exportar-excel') }}" class="btn btn-success btn-sm mr-2">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </a>
                     <a href="{{ route('ventas.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Nueva Venta
                     </a>
@@ -54,13 +57,19 @@
                                 </td>
                                 <td><strong>S/ {{ number_format($venta->total, 2) }}</strong></td>
                                 <td>
-                                    <a href="{{ route('ventas.show', $venta->id_venta) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('ventas.show', $venta->id_venta) }}" class="btn btn-info btn-sm" title="Ver detalle">
                                         <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('ventas.pdf', $venta->id_venta) }}" class="btn btn-danger btn-sm" target="_blank" title="Descargar PDF">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </a>
+                                    <a href="{{ route('ventas.ticket', $venta->id_venta) }}" class="btn btn-secondary btn-sm" target="_blank" title="Imprimir ticket">
+                                        <i class="fas fa-print"></i>
                                     </a>
                                     <form action="{{ route('ventas.destroy', $venta->id_venta) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </form>

@@ -45,6 +45,12 @@
                 <a href="{{ route('ventas.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Volver
                 </a>
+                <a href="{{ route('ventas.pdf', $venta) }}" class="btn btn-danger" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </a>
+                <a href="{{ route('ventas.ticket', $venta) }}" class="btn btn-info" target="_blank">
+                    <i class="fas fa-print"></i> Imprimir Ticket
+                </a>
             </div>
         </div>
     </div>

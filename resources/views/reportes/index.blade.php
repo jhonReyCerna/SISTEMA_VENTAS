@@ -25,8 +25,11 @@
                     </p>
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{{ route('reportes.ventas-por-fecha') }}" class="btn btn-primary">
+                    <a href="{{ route('reportes.ventas-por-fecha') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-chart-line"></i> Ver Reporte
+                    </a>
+                    <a href="{{ route('reportes.ventas-pdf') }}" class="btn btn-danger btn-sm" target="_blank">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
                     </a>
                 </div>
             </div>

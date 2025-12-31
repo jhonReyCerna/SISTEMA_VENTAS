@@ -9,6 +9,8 @@ use App\Models\MovimientoStock;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class ReporteController extends Controller
 {
@@ -139,5 +141,26 @@ class ReporteController extends Controller
         $productos = Producto::where('estado', 'ACTIVO')->get();
 
         return view('reportes.kardex', compact('movimientos', 'productos', 'id_producto'));
+    }
+
+    /**
+     * Generar PDF de reporte de ventas
+     */
+    public function ventasPDF(Request $request)
+    {
+        $fecha_inicio = $request->get('fecha_inicio') ? Carbon::parse($request->get('fecha_inicio')) : null;
+        $fecha_fin = $request->get('fecha_fin') ? Carbon::parse($request->get('fecha_fin')) : null;
+
+        $query = Venta::with(['cliente', 'usuario']);
+
+        if ($fecha_inicio && $fecha_fin) {
+            $query->whereBetween('fecha_venta', [$fecha_inicio, $fecha_fin]);
+        }
+
+        $ventas = $query->orderBy('fecha_venta', 'desc')->get();
+
+        $pdf = Pdf::loadView('reportes.ventas_pdf', compact('ventas', 'fecha_inicio', 'fecha_fin'));
+
+        return $pdf->download('reporte_ventas_' . date('Y-m-d') . '.pdf');
     }
 }

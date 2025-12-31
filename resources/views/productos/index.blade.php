@@ -13,6 +13,9 @@
             <div class="card-header">
                 <h3 class="card-title">Gestión de Productos</h3>
                 <div class="card-tools">
+                    <a href="{{ route('productos.exportar-excel') }}" class="btn btn-success btn-sm mr-2">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </a>
                     <a href="{{ route('productos.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Nuevo Producto
                     </a>

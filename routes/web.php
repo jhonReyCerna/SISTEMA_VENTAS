@@ -51,11 +51,15 @@ Route::middleware(['auth', 'prevent.back', 'check.status'])->group(function () {
     // Rutas de Productos - Admin, Supervisor
     Route::middleware(['role:Admin,Supervisor'])->group(function () {
         Route::resource('productos', ProductoController::class);
+        Route::get('productos/exportar/excel', [ProductoController::class, 'exportarExcel'])->name('productos.exportar-excel');
     });
 
     // Rutas de Ventas - Admin, Supervisor, Vendedor
     Route::middleware(['role:Admin,Supervisor,Vendedor'])->group(function () {
         Route::resource('ventas', VentaController::class);
+        Route::get('ventas/{venta}/pdf', [VentaController::class, 'generarPDF'])->name('ventas.pdf');
+        Route::get('ventas/{venta}/ticket', [VentaController::class, 'ticket'])->name('ventas.ticket');
+        Route::get('ventas/exportar/excel', [VentaController::class, 'exportarExcel'])->name('ventas.exportar-excel');
     });
 
     // Rutas de Movimientos de Stock - Admin, Supervisor
@@ -72,6 +76,7 @@ Route::middleware(['auth', 'prevent.back', 'check.status'])->group(function () {
             Route::get('/productos-mas-vendidos', [ReporteController::class, 'productosMasVendidos'])->name('productos-mas-vendidos');
             Route::get('/stock-alertas', [ReporteController::class, 'stockYAlertas'])->name('stock-alertas');
             Route::get('/kardex', [ReporteController::class, 'kardex'])->name('kardex');
+            Route::get('/ventas-pdf', [ReporteController::class, 'ventasPDF'])->name('ventas-pdf');
         });
     });
 });

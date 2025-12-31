@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use App\Exports\ProductosExport;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductoController extends Controller
 {
@@ -93,5 +95,34 @@ class ProductoController extends Controller
         $producto->delete();
 
         return redirect()->route('productos.index')->with('success', 'Producto eliminado exitosamente');
+    }
+
+    /**
+     * Exportar productos a Excel
+     */
+    public function exportarExcel()
+    {
+        $export = new ProductosExport();
+        $data = $export->toArray();
+        
+        $nombreArchivo = 'productos_' . date('Y-m-d_H-i-s') . '.csv';
+        
+        $response = new StreamedResponse(function() use ($data) {
+            $handle = fopen('php://output', 'w');
+            
+            // BOM para UTF-8
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            foreach ($data as $row) {
+                fputcsv($handle, $row, ';');
+            }
+            
+            fclose($handle);
+        });
+        
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $nombreArchivo . '"');
+        
+        return $response;
     }
 }
