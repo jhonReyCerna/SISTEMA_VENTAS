@@ -5,7 +5,7 @@
         <div class="absolute inset-0 rounded-xl" style="background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.25);"></div>
         <div class="relative bg-white/5 p-6 rounded-xl text-white">
         <div class="flex flex-col items-center mb-6">
-            <x-application-logo class="w-16 h-16 text-gray-800" />
+            <img src="{{ asset('img/logoo.png') }}" alt="Logo" class="w-[180px] h-[180px]" style="width:120px;height:120px;" />
             <h2 class="mt-4 text-xl font-semibold text-gray-800">Iniciar sesión</h2>
             <p class="text-sm text-gray-500 mt-1">Acceso al panel administrativo</p>
         </div>
