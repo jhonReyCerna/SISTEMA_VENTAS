@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "PHP_EXTENSIONS": "gd"
+    }
+  }
+}
