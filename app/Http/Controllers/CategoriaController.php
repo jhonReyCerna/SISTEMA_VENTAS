@@ -12,6 +12,10 @@ class CategoriaController extends Controller
      */
     public function index()
     {
+        // Usar caché para categorías frecuentes
+        $categorias = cache()->remember('categorias_list', 60, function() {
+            return Categoria::all();
+        });
         $query = Categoria::query();
         if (request()->filled('nombre')) {
             $query->where('nombre', 'like', '%' . request('nombre') . '%');

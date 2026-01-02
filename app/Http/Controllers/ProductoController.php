@@ -32,7 +32,10 @@ class ProductoController extends Controller
             $query->where('estado', request('estado'));
         }
         $productos = $query->paginate(10)->appends(request()->query());
-        $categorias = \App\Models\Categoria::all();
+        // Usar caché para categorías frecuentes
+        $categorias = cache()->remember('categorias_list', 60, function() {
+            return \App\Models\Categoria::all();
+        });
         return view('productos.index', compact('productos', 'categorias'));
     }
 
