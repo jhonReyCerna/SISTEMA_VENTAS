@@ -19,7 +19,7 @@
                 @method('PUT')
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="id_categoria">Categoría</label>
+                        <label for="id_categoria">Categoría <i class="fas fa-info-circle" data-toggle="tooltip" title="Selecciona la categoría del producto"></i></label>
                         <select class="form-control @error('id_categoria') is-invalid @enderror" id="id_categoria" name="id_categoria" required>
                             <option value="">Selecciona una categoría</option>
                             @foreach($categorias as $categoria)
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="nombre">Nombre</label>
+                        <label for="nombre">Nombre <i class="fas fa-info-circle" data-toggle="tooltip" title="Nombre único para el producto"></i></label>
                         <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="nombre" name="nombre" value="{{ old('nombre', $producto->nombre) }}" required>
                         @error('nombre')
                             <span class="invalid-feedback">{{ $message }}</span>

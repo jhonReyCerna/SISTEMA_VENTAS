@@ -13,19 +13,27 @@
             <div class="card-header">
                 <h3 class="card-title">Gestión de Productos</h3>
                 <div class="card-tools">
-                    <a href="{{ route('productos.exportar-excel') }}" class="btn btn-success btn-sm mr-2">
+                    <a href="{{ route('productos.exportar-excel') }}" class="btn btn-success btn-sm mr-2" data-toggle="tooltip" title="Exporta la lista de productos a Excel">
                         <i class="fas fa-file-excel"></i> Exportar Excel
                     </a>
-                    <a href="{{ route('productos.create') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('productos.create') }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Crear un nuevo producto">
                         <i class="fas fa-plus"></i> Nuevo Producto
                     </a>
                 </div>
             </div>
             <div class="card-body">
                 @if($message = Session::get('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" aria-live="assertive">
                         <strong>{{ $message }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if($message = Session::get('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="assertive">
+                        <strong>{{ $message }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>

@@ -28,6 +28,13 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <script>
+        // Inicializar tooltips de Bootstrap
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                new window.bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
         // Verificar sesión al cargar la página
         (function() {
             // Detectar si el navegador se cerró y abrió de nuevo
