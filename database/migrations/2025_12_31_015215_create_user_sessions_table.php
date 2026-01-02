@@ -26,11 +26,10 @@ return new class extends Migration
             $table->integer('last_activity');
             $table->timestamp('created_at')->nullable();
             
-            $table->index(['user_id', 'last_activity']);
+              $table->index('user_id');
+              $table->foreign('user_id')->references('id_usuario')->on('usuarios')->onDelete('cascade');
         });
         
-        // Add foreign key constraint using raw SQL
-        DB::statement('ALTER TABLE user_sessions ADD CONSTRAINT user_sessions_user_id_foreign FOREIGN KEY (user_id) REFERENCES usuarios(id_usuario) ON DELETE CASCADE');
     }
 
     /**

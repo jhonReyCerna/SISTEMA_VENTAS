@@ -12,18 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Crear tabla usuarios sin la clave foránea primero
-        DB::unprepared(<<<SQL
-CREATE TABLE usuarios (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    id_rol INT,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    estado ENUM('ACTIVO','INACTIVO') DEFAULT 'ACTIVO',
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-SQL);
+        Schema::create('usuarios', function (Blueprint $table) {
+            $table->increments('id_usuario');
+            $table->unsignedInteger('id_rol')->nullable();
+            $table->string('nombre', 100);
+            $table->string('email', 100)->unique();
+            $table->string('password', 255);
+            $table->string('estado', 20)->default('ACTIVO');
+            $table->timestamp('fecha_creacion')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->foreign('id_rol')->references('id_rol')->on('roles')->onDelete('set null');
+        });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

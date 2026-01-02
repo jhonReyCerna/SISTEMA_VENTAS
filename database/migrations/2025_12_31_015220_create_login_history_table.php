@@ -32,10 +32,8 @@ return new class extends Migration
             
             $table->index(['user_id', 'login_at']);
             $table->index('ip_address');
+            $table->foreign('user_id')->references('id_usuario')->on('usuarios')->onDelete('cascade');
         });
-        
-        // Add foreign key constraint using raw SQL
-        DB::statement('ALTER TABLE login_history ADD CONSTRAINT login_history_user_id_foreign FOREIGN KEY (user_id) REFERENCES usuarios(id_usuario) ON DELETE CASCADE');
     }
 
     /**
